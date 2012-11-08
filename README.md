@@ -3,7 +3,7 @@
 
 루트 디렉토리로 이동
 
-    # cd ShareJS_node
+    # cd ShareJS
 
 install
 
