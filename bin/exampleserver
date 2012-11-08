@@ -5,9 +5,9 @@
 //
 // It demonstrates a few techniques to get different application behaviour.
 
-require('coffee-script');
+//require('coffee-script');
 var connect = require('connect'),
-	sharejs = require('../src'),
+	sharejs = require('../lib'),
 	hat = require('hat').rack(32, 36);
 
 var argv = require('optimist').

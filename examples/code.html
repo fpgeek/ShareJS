@@ -14,9 +14,7 @@
     </div>
 
     <div id="editor">Loading...</div>
-    <script src="/lib/ace/ace.js"></script>
-    <script src="/lib/ace/mode-coffee.js"></script>
-    <script src="/lib/ace/theme-idle_fingers.js"></script>
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/channel/bcsocket.js"></script>
     <script src="/share/share.uncompressed.js"></script>
     <script src="/share/ace.js"></script>
@@ -40,7 +38,7 @@ window.onload = function() {
   editor.setReadOnly(true);
   editor.getSession().setUseSoftTabs(true);
   editor.getSession().setTabSize(2);
-  editor.getSession().setMode(new (require("ace/mode/coffee").Mode));
+  editor.getSession().setMode("ace/mode/coffee");
   editor.setTheme("ace/theme/idle_fingers");
 
   if (!document.location.hash) {
@@ -62,6 +60,24 @@ window.onload = function() {
 
     doc.attach_ace(editor);
     editor.setReadOnly(false);
+  });
+
+  var cursorDocName = 'cursor_' + docName;
+  sharejs.open(cursorDocName, 'text', function(error, doc) {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    console.log('another doc init');
+    //console.log(doc);
+
+    if (doc.created) {
+    }
+
+    doc.attach_remotecursor(editor);
+    //doc.attach_ace(editor);
+    //editor.setReadOnly(false);
   });
 };
     </script>

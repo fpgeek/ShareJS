@@ -1,3 +1,27 @@
+실행방법
+=======
+
+루트 디렉토리로 이동
+
+    # cd ShareJS_node
+
+install
+
+    # npm install
+
+coffeescript to js
+
+    # cake build
+    # cake webclient
+
+exampleserver run
+
+    # bin/exampleserver
+
+데모 사이트 접속
+
+    # localhost:8000/code.html
+
 ShareJS
 =======
 

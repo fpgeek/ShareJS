@@ -34,3 +34,19 @@ body {
   font-weight: bold;
 }
 
+.ace_marker.start {
+	position: absolute;
+	z-index: 4;
+}
+
+.yellow.start {
+	border-left: 2px solid yellow;
+}
+
+.blue.start {
+	border-left: 2px solid blue;	
+}
+
+.red.start {
+	border-left: 2px solid red;
+}
