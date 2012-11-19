@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <link href="ace/style.css" rel="stylesheet" type="text/css">
+    <title>Code editor</title>
+  </head>
+
+  <body>
+    <div id="header">
+      <div id="htext">
+      </div>
+    </div>
+
+    <div id="editor"></div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/channel/bcsocket.js"></script>
+    <script src="/share/share.uncompressed.js"></script>
+    <script src="/share/ace.js"></script>
+    <script>;
+			var randomDocName = function(length) {
+			return "editor"
+			};
+
+			window.onload = function() {
+			$('#shareEdit').click(function(){
+			window.open("/login.html#" + $('#name')[0].value )
+			});
+
+			var editor = ace.edit("editor");
+
+			editor.setReadOnly(true);
+			editor.getSession().setUseSoftTabs(true);
+			editor.getSession().setTabSize(2);
+			editor.getSession().setMode("ace/mode/coffee");
+			editor.setTheme("ace/theme/idle_fingers");
+
+			if (!document.location.hash) {
+			document.location.hash = '#' + randomDocName();
+			}
+
+			var docName = "code:" + randomDocName();
+			sharejs.open(docName, 'text', function(error, doc) {
+			if (error) {
+      console.error(error);
+      return;
+			}
+
+			if (doc.created) {
+      doc.insert(0, "# Coffeescript editor!\n\nexports.foo = ->\n  console.log 'hi!'");
+			}
+
+			doc.attach_ace(editor);
+			editor.setReadOnly(false);
+			});
+
+			var cursorDocName = 'cursor_' + docName;
+			sharejs.open(cursorDocName, 'text', function(error, doc) {
+			if (error) {
+      console.error(error);
+      return;
+			}
+
+			if (doc.created) {
+			}
+
+			doc.attach_remotecursor(editor);
+			//doc.attach_ace(editor);
+			//editor.setReadOnly(false);
+
+			});
+			};
+    </script>
+  </body>
+</html>  
+
