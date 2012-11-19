@@ -94,15 +94,16 @@
       editor.getSession().removeMarker(markerId);
       markerId = editor.getSession().addMarker(range, 'ace_marker ' + colorClazz, 'text', true);
       var elCursorCont = document.getElementsByClassName('ace_marker ' + colorClazz)[0];
+      var cid = 'abc_' + rmUserId;
       
       if(elCursorCont){
-        var elAbs = document.getElementById('abs');
+        var elAbs = document.getElementById(cid);
         if (elAbs){
           elAbs.parentNode.removeChild(elAbs);
         }
         
         var elDiv = document.createElement("div");
-        elDiv.id = "abs";
+        elDiv.id = cid;
         var offset = $(elCursorCont).offset();
         elDiv.style.width = "50px";
         elDiv.style.height = "16px";
