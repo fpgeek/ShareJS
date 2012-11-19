@@ -111,7 +111,7 @@
     $cursorDoc.editor = editor;
     $cursorDoc.remoteMarkers = {};
     $cursorDoc.cursorColorIdx = 0;
-    $cursorDoc.userid = randomUserId();
+    $cursorDoc.userid = document.location.hash.slice(1);
     $cursorDoc.jsonText = '';
     return $cursorDoc.on('insert', cursorInsertListener);
   });

@@ -72,7 +72,7 @@
     return name.join('');
   };
 
-  cursorColors = ['yellow', 'red', 'blue'];
+  cursorColors = ['orange', 'red', 'blue'];
 
   $cursorDoc = {};
 
@@ -83,14 +83,45 @@
     rmUserId = jsonData.u;
     position = jsonData.p;
     remoteMarkers = $cursorDoc.remoteMarkers;
+
     editor = $cursorDoc.editor;
     editorDoc = editor.getSession().getDocument();
     range = Range.fromPoints(offsetToPos(editorDoc, position), offsetToPos(editorDoc, position + 1));
+    
     if (remoteMarkers.hasOwnProperty(rmUserId)) {
       colorClazz = $cursorDoc.remoteMarkers[rmUserId].clazz;
       markerId = $cursorDoc.remoteMarkers[rmUserId].id;
       editor.getSession().removeMarker(markerId);
       markerId = editor.getSession().addMarker(range, 'ace_marker ' + colorClazz, 'text', true);
+      var elCursorCont = document.getElementsByClassName('ace_marker ' + colorClazz)[0];
+      
+      if(elCursorCont){
+        var elAbs = document.getElementById('abs');
+        if (elAbs){
+          elAbs.parentNode.removeChild(elAbs);
+        }
+        
+        var elDiv = document.createElement("div");
+        elDiv.id = "abs";
+        var offset = $(elCursorCont).offset();
+        elDiv.style.width = "50px";
+        elDiv.style.height = "16px";
+        elDiv.style.position = "absolute";
+        elDiv.style.overflow = "hidden";
+        elDiv.style.fontSize = "13px";
+        elDiv.style.left = offset.left + 7;
+        elDiv.style.top = offset.top + 13;
+        elDiv.style.color = "white";
+        elDiv.style.zIndex = "10000";
+        elDiv.style.backgroundColor = colorClazz;
+
+        elDiv.innerHTML = rmUserId;
+        document.body.appendChild(elDiv);
+
+      }else{
+          console.log('fail') ;
+      }
+
       return $cursorDoc.remoteMarkers[rmUserId] = {
         'id': markerId,
         'clazz': colorClazz
@@ -99,6 +130,7 @@
       colorClazz = cursorColors[$cursorDoc.cursorColorIdx];
       $cursorDoc.cursorColorIdx++;
       markerId = editor.getSession().addMarker(range, 'ace_marker ' + colorClazz, 'text', true);
+      
       return $cursorDoc.remoteMarkers[rmUserId] = {
         'id': markerId,
         'clazz': colorClazz
@@ -111,7 +143,7 @@
     $cursorDoc.editor = editor;
     $cursorDoc.remoteMarkers = {};
     $cursorDoc.cursorColorIdx = 0;
-    $cursorDoc.userid = randomUserId();
+    $cursorDoc.userid = document.location.hash.slice(1);
     $cursorDoc.jsonText = '';
     return $cursorDoc.on('insert', cursorInsertListener);
   });
@@ -123,6 +155,7 @@
     }
     doc = this;
     editorDoc = editor.getSession().getDocument();
+    
     editorDoc.setNewLineMode('unix');
     check = function() {
       return window.setTimeout(function() {
@@ -171,6 +204,7 @@
           p: 0
         }
       ];
+
       return $cursorDoc.submitOp(op);
     };
     editor.on('changeSelection', changeSelectionListener);
